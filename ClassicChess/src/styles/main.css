@@ -1,0 +1,189 @@
+@import url("https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap");
+
+:root {
+    --font-family: "Google Sans", sans-serif;
+
+    /* Base Colors */
+    --color-primary: #d46a8a;
+    --color-primary-hover: #c45b7b;
+    --color-primary-active: #b24d6d;
+
+    /* Chess Board Light Mode */
+    --board-square-light: #ebecd0;
+    --board-square-dark: #d46a8a;
+    --board-highlight-last-move: rgba(255, 230, 100, 0.5);
+    --board-highlight-selected: rgba(255, 255, 255, 0.4);
+    --board-dot-valid-move: rgba(0, 0, 0, 0.18);
+    --board-ring-capture: rgba(0, 0, 0, 0.22);
+    --board-in-check: radial-gradient(
+        ellipse at center,
+        rgba(235, 60, 60, 0.9) 0%,
+        rgba(235, 60, 60, 0) 75%
+    );
+
+    /* Theme: Light Mode (Default) */
+    --bg-page: #f0f2f5;
+    --bg-container: #ffffff;
+    --bg-sidebar: #f8f9fa;
+    --bg-card: #f1f3f4;
+    --bg-hover: #e8eaed;
+
+    --text-primary: #202124;
+    --text-secondary: #5f6368;
+    --text-muted: #80868b;
+    --text-inverse: #ffffff;
+
+    --border-color: #dadce0;
+    --border-subtle: #e8eaed;
+}
+
+[data-theme="dark"] {
+    --color-primary: #d46a8a;
+    --color-primary-hover: #e07b9a;
+    --color-primary-active: #c45b7b;
+
+    /* Chess Board Dark Mode */
+    --board-square-light: #ebecd0;
+    --board-square-dark: #d46a8a;
+    --board-highlight-last-move: rgba(255, 230, 100, 0.4);
+    --board-highlight-selected: rgba(255, 255, 255, 0.35);
+    --board-dot-valid-move: rgba(0, 0, 0, 0.25);
+    --board-ring-capture: rgba(0, 0, 0, 0.3);
+    --board-in-check: radial-gradient(
+        ellipse at center,
+        rgba(255, 65, 65, 0.9) 0%,
+        rgba(255, 65, 65, 0) 75%
+    );
+
+    /* Theme: Dark Mode */
+    --bg-page: #1e1e1e;
+    --bg-container: #262522;
+    --bg-sidebar: #21201d;
+    --bg-card: #2b2925;
+    --bg-hover: #383531;
+
+    --text-primary: #f1f3f4;
+    --text-secondary: #bdc1c6;
+    --text-muted: #9aa0a6;
+    --text-inverse: #202124;
+
+    --border-color: #3e3c38;
+    --border-subtle: #302e2a;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family);
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+body {
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.app-header {
+    width: 100%;
+    height: 40px;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--bg-container);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+
+.logo-icon {
+    font-size: 20px;
+    color: var(--color-primary);
+}
+
+.theme-toggle-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.theme-toggle-btn:hover {
+    background-color: var(--bg-hover);
+}
+
+.app-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+}
+
+.game-container {
+    width: min(100vw - 20px, calc((100vh - 76px) * 16 / 9));
+    aspect-ratio: 16 / 9;
+    max-height: calc(100vh - 76px);
+    background-color: var(--bg-container);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    overflow: hidden;
+    position: relative;
+}
+
+.game-left-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 10px 16px;
+    gap: 6px;
+}
+
+.game-right-column {
+    background-color: var(--bg-sidebar);
+    border-left: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.app-footer {
+    width: 100%;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: var(--text-muted);
+    background-color: var(--bg-container);
+    border-top: 1px solid var(--border-color);
+}

@@ -1,0 +1,107 @@
+KẾ HOẠCH PHÁT TRIỂN GAME CỜ VUA (LOCAL PASS & PLAY)
+Công nghệ: Pure JavaScript + PixiJS + Vite
+
+================================================================================
+GIAI ĐOẠN 1: KHỞI TẠO KIẾN TRÚC & CẤU TRÚC DỮ LIỆU CỐT LÕI (10%)
+================================================================================
+1. Thiết lập dự án:
+   - Khởi tạo cấu trúc dự án với Vite (template Vanilla JS).
+   - Cài đặt và cấu hình thư viện PixiJS.
+   - Thiết lập cấu trúc thư mục phân tách rõ Core Logic, View và Controller.
+
+2. Cấu trúc thực thể quân cờ (Piece):
+   - Định nghĩa thuộc tính: type (Pawn, Knight, Bishop, Rook, Queen, King), color ('white' | 'black'), hasMoved (boolean).
+
+3. Cấu trúc dữ liệu bàn cờ (Board):
+   - Xây dựng ma trận 8x8 (hoặc mảng 64 ô).
+   - Khởi tạo vị trí chuẩn ban đầu của 32 quân cờ.
+
+4. Quản lý trạng thái ván cờ (GameState):
+   - Biến lưu lượt đi: currentTurn ('white' | 'black').
+   - Mục tiêu bắt tốt qua đường: enPassantTarget (tọa độ {row, col} hoặc null).
+   - Quyền nhập thành: castlingRights (Kingside & Queenside cho cả hai bên).
+   - Lịch sử nước đi và danh sách quân cờ đã bị bắt.
+
+================================================================================
+GIAI ĐOẠN 2: XÂY DỰNG LOGIC CỜ VUA THUẦN (PURE CHESS LOGIC) (40%)
+================================================================================
+1. Sinh nước đi giả định (Pseudo-Legal Moves):
+   - Tốt (Pawn): Đi thẳng 1 ô, đi 2 ô ở nước đầu, ăn chéo 1 ô.
+   - Mã (Knight): Nhảy 8 hướng theo hình chữ L.
+   - Tượng (Bishop), Xe (Rook), Hậu (Queen): Quét tia (Raycasting) theo các hướng chéo/thẳng cho đến khi chạm mép bàn cờ hoặc bị cản.
+   - Vua (King): Di chuyển 1 ô theo 8 hướng bao quanh.
+
+2. Kiểm tra vùng kiểm soát & Chiếu (Check Detection):
+   - Hàm isSquareAttacked(row, col, attackerColor): Kiểm tra một ô có bị quân đối phương kiểm soát không.
+   - Hàm isKingInCheck(color): Định vị Vua và xác định Vua có đang bị chiếu không.
+
+3. Bộ lọc nước đi hợp lệ tuyệt đối (Legal Moves Filtering):
+   - Thử nghiệm từng nước đi giả định trên bản sao bàn cờ.
+   - Kiểm tra Vua cùng màu có bị chiếu hay không.
+   - Trả về danh sách getLegalMoves(row, col).
+
+4. Xử lý các luật đặc biệt:
+   - Nhập thành (Castling): Vua và Xe chưa từng di chuyển, các ô trung gian trống, Vua không bị chiếu và không đi qua ô bị kiểm soát.
+   - Bắt tốt qua đường (En Passant): Xác thực Tốt đối phương vừa nhảy 2 ô ở lượt trước và xóa quân bị ăn.
+   - Phong cấp (Pawn Promotion): Nhận diện Tốt chạm hàng cuối đối phương để đổi thành Hậu, Xe, Tượng hoặc Mã.
+
+5. Xác định kết thúc ván cờ (End Game Conditions):
+   - Kiểm tra toàn bộ nước đi hợp lệ của bên tới lượt.
+   - Chiếu hết (Checkmate): Đang bị chiếu và không còn nước đi hợp lệ.
+   - Hòa cờ (Stalemate): Không bị chiếu nhưng không còn nước đi hợp lệ.
+
+================================================================================
+GIAI ĐOẠN 3: TÍCH HỢP GIAO DIỆN & ĐỒ HỌA PIXIJS (25%)
+================================================================================
+1. Khởi tạo Canvas & Quản lý Asset:
+   - Tạo PIXI.Application, cấu hình responsive theo khung nhìn.
+   - Tải trước (preload) 12 texture quân cờ và texture bàn cờ.
+
+2. Vẽ bàn cờ (Board Rendering):
+   - Dùng PIXI.Graphics vẽ lưới 8x8 ô sáng/tối xen kẽ.
+   - Vẽ nhãn tọa độ cột (a-h) và hàng (1-8).
+
+3. Quản lý Sprite quân cờ (Piece Sprites):
+   - Tạo và đồng bộ các PIXI.Sprite tương ứng với ma trận dữ liệu từ Core Logic.
+   - Chuyển đổi tọa độ ma trận (row, col) sang tọa độ màn hình (x, y).
+
+4. Lớp hiển thị gợi ý (Highlights Layer):
+   - Đánh dấu ô cờ đang được chọn.
+   - Vẽ các điểm chấm tròn chỉ dẫn nước đi hợp lệ (legalMoves).
+   - Đánh dấu ô màu đỏ cảnh báo khi Vua bị chiếu.
+   - Đánh dấu ô xuất phát và ô đích của nước đi vừa thực hiện.
+
+================================================================================
+GIAI ĐOẠN 4: XỬ LÝ TƯƠNG TÁC & TRẢI NGHIỆM NGƯỜI CHƠI (15%)
+================================================================================
+1. Hệ thống điều khiển (Input Controller):
+   - Bắt sự kiện pointerdown trên bàn cờ.
+   - Xử lý cơ chế Click-to-Move (hoặc Drag-and-Drop).
+
+2. Luồng thực thi nước đi (Move Execution Flow):
+   - Đối chiếu ô đích với danh sách getLegalMoves.
+   - Hợp lệ: Cập nhật ma trận logic -> Cập nhật sprite trên bàn cờ -> Xử lý phong cấp -> Đổi lượt đi (currentTurn).
+   - Không hợp lệ: Hủy trạng thái chọn.
+
+3. Hoạt ảnh & Âm thanh (Animations & SFX):
+   - Tạo hiệu ứng lướt mượt khi di chuyển quân.
+   - Tích hợp âm thanh khi di chuyển, ăn quân, chiếu và kết thúc ván.
+
+4. Giao diện phụ trợ (UI Overlays):
+   - Modal lựa chọn quân khi phong cấp.
+   - Bảng thông báo kết quả (Thắng / Thua / Hòa) và nút chơi lại (Restart).
+   - Chỉ báo lượt đi hiện tại (Trắng / Đen).
+
+================================================================================
+GIAI ĐOẠN 5: KIỂM THỬ, TỐI ƯU & XUẤT BẢN (10%)
+================================================================================
+1. Kiểm thử logic (Edge-case Testing):
+   - Kiểm tra các trường hợp biên: Nhập thành qua ô bị kiểm soát, phong cấp khi đang bị chiếu, bắt tốt qua đường, điều kiện hòa cờ.
+
+2. Tối ưu hiệu năng:
+   - Giải phóng (destroy) texture/sprite không sử dụng khi ăn quân để tránh rò rỉ bộ nhớ WebGL.
+   - Tối ưu hiển thị responsive trên máy tính và di động.
+
+3. Đóng gói & Triển khai (Deployment):
+   - Chạy lệnh build tối ưu mã nguồn tĩnh.
+   - Triển khai lên GitHub Pages, Vercel hoặc Cloudflare Pages.

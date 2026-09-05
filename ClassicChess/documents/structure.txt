@@ -1,0 +1,35 @@
+ClassicChess/
+├── public/
+│   └── assets/
+│       └── pieces/              # Hình ảnh vector (SVG) của 12 quân cờ (wP, wR, bK, ...)
+├── src/
+│   ├── core/                    # Lõi logic bàn cờ và luật chơi (Hoàn toàn độc lập với UI)
+│   │   ├── Board.js             # Quản lý ma trận 8x8, vị trí quân, khởi tạo bàn cờ
+│   │   ├── Move.js              # Đối tượng biểu diễn một nước đi (từ ô nào, đến ô nào, loại nước đi)
+│   │   ├── GameState.js         # Trạng thái ván cờ (lượt đi, chiếu, chiếu bí, hòa, lịch sử nước đi)
+│   │   ├── pieces/              # Kế thừa OOP cho từng loại quân
+│   │   │   ├── Piece.js         # Lớp trừu tượng cơ sở (Base Piece: color, position, getValidMoves())
+│   │   │   ├── Pawn.js          # Logic di chuyển tốt, phong cấp, bắt tốt qua đường (En Passant)
+│   │   │   ├── Rook.js          # Logic di chuyển xe, cờ nhập thành
+│   │   │   ├── Knight.js        # Logic di chuyển mã
+│   │   │   ├── Bishop.js        # Logic di chuyển tượng
+│   │   │   ├── Queen.js         # Logic di chuyển hậu
+│   │   │   └── King.js          # Logic di chuyển vua, nhập thành, an toàn của vua
+│   │   └── rules/               # Bộ quy tắc kiểm tra nâng cao
+│   │       ├── CheckDetector.js # Kiểm tra trạng thái bị chiếu, chiếu bí, hết nước đi (Stalemate)
+│   │       └── SpecialMoves.js  # Xử lý luật đặc biệt (Castling, En Passant, Promotion)
+│   ├── view/                    # Lớp hiển thị và đồ họa (Render UI ra DOM / Canvas)
+│   │   ├── BoardView.js         # Render bàn cờ 64 ô, vẽ quân cờ, hiệu ứng chọn ô
+│   │   ├── HighlightLayer.js    # Hiển thị các chấm gợi ý nước đi hợp lệ, ô vừa đi
+│   │   └── UIManager.js         # Hiển thị thông tin lượt chơi, bảng chọn phong cấp, kết quả
+│   ├── controller/              # Điều phối giữa Core Logic, View và sự kiện từ người dùng
+│   │   ├── GameController.js    # Khởi tạo, xử lý click/drag chuột, gọi logic kiểm tra và cập nhật View
+│   │   └── InputHandler.js      # Bắt và chuẩn hóa các sự kiện chuột/chạm (pointer events)
+│   ├── bridge/                  # Giao tiếp với Website chính
+│   │   └── MainBridge.js        # Lắng nghe và gửi postMessage giữa iframe game và website chính
+│   ├── styles/
+│   │   └── main.css             # Định kiểu bàn cờ, quân cờ và animation
+│   └── main.js                  # Entry point: Khởi tạo GameController và MainBridge
+├── index.html                   # File HTML chạy trong iframe
+├── package.json
+└── vite.config.js

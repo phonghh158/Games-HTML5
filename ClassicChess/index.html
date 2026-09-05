@@ -1,0 +1,41 @@
+<!-- index.html -->
+<!doctype html>
+<html lang="en" data-theme="dark">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Modular Chess Engine</title>
+        <link rel="stylesheet" href="./styles/main.css" />
+        <link rel="stylesheet" href="./styles/board.css" />
+        <link rel="stylesheet" href="./styles/player-bar.css" />
+        <link rel="stylesheet" href="./styles/sidebar.css" />
+        <link rel="stylesheet" href="./styles/modal.css" />
+    </head>
+    <body>
+        <header class="app-header">
+            <div class="header-logo">
+                <span class="logo-icon">&#9819;</span>
+                <span class="logo-title">CHESS</span>
+            </div>
+            <div class="header-actions">
+                <button
+                    id="theme-toggle-btn"
+                    class="theme-toggle-btn"
+                    aria-label="Toggle Theme"
+                >
+                    &#9788;
+                </button>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <div id="game-container" class="game-container"></div>
+        </main>
+
+        <footer class="app-footer">
+            <span>Modular Chess Engine &copy; 2026</span>
+        </footer>
+
+        <script type="module" src="./src/main.js"></script>
+    </body>
+</html>

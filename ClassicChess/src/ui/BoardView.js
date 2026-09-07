@@ -1,6 +1,11 @@
 // src/ui/BoardView.js
 import PromotionModal from "./PromotionModal.js";
 
+const pieceImages = import.meta.glob("../assets/pieces/*/*.svg", {
+    eager: true,
+    import: "default",
+});
+
 class BoardView {
     //#region Private Variables
     #container;
@@ -48,7 +53,7 @@ class BoardView {
                 square.dataset.row = row;
                 square.dataset.col = col;
 
-                if (col === 7) {
+                if (col === 0) {
                     const rankLabel = document.createElement("span");
                     rankLabel.className = "coordinate-label coordinate-rank";
                     rankLabel.textContent = 8 - row;
@@ -89,9 +94,14 @@ class BoardView {
                 if (piece !== null) {
                     const pieceElement = document.createElement("div");
                     pieceElement.className = "piece-element";
-                    const prefix = piece.color === "WHITE" ? "w" : "b";
-                    const typeChar = piece.type === "KNIGHT" ? "N" : piece.type[0];
-                    pieceElement.style.backgroundImage = `url('./assets/pieces/${prefix}${typeChar}.svg')`;
+                    const colorFolder = piece.color.toLowerCase();
+                    const pieceName = piece.type.toLowerCase();
+                    const key = `../assets/pieces/${colorFolder}/${pieceName}.svg`;
+                    const imageSrc = pieceImages[key];
+
+                    if (imageSrc) {
+                        pieceElement.style.backgroundImage = `url("${imageSrc}")`;
+                    }
                     square.appendChild(pieceElement);
                 }
             }
@@ -158,7 +168,7 @@ class BoardView {
     }
 
     updateStatus(status, turn) {
-        // Co the mo rong xu ly overlay khi checkmate / draw
+        // TODO
     }
 
     async showPromotionModal(color) {

@@ -65,10 +65,9 @@ class PromotionModal {
     show(color) {
         const pieceIcons = this.#containerElement.querySelectorAll(".promotion-piece-icon");
         pieceIcons.forEach((icon) => {
-            const type = icon.dataset.piece;
-            const prefix = color === "WHITE" ? "w" : "b";
-            const typeChar = type === "KNIGHT" ? "N" : type[0];
-            icon.style.backgroundImage = `url('./assets/pieces/${prefix}${typeChar}.svg')`;
+            const colorFolder = color.toLowerCase();
+            const pieceName = icon.dataset.piece.toLowerCase();
+            icon.style.backgroundImage = `url('../assets/pieces/${colorFolder}/${pieceName}.svg')`;
         });
 
         this.#overlayElement.style.display = "flex";

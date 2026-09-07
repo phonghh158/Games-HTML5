@@ -137,7 +137,7 @@ class SpecialMoves {
         return null;
     }
 
-    // Phong cấp    
+    // Phong cấp
     static isPromotion(pawn, targetRow) {
         const promotionRow = pawn.color === COLORS.WHITE ? 0 : 7;
         return pawn.type === PIECE_TYPES.PAWN && targetRow === promotionRow;

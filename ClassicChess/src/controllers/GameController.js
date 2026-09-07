@@ -1,8 +1,8 @@
 // src/controllers/GameController.js
-import Move from "../Move.js";
-import MoveValidator from "./MoveValidator.js";
-import SpecialMoves from "./SpecialMoves.js";
-import InputHandler from "../../controllers/InputHandler.js";
+import Move from "../core/Move.js";
+import MoveValidator from "../core/rules/MoveValidator.js";
+import SpecialMoves from "../core/rules/SpecialMoves.js";
+import InputHandler from "./InputHandler.js";
 
 class GameController {
     //#region Private Variables

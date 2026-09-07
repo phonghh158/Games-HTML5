@@ -95,9 +95,9 @@ class PlayerBar {
         for (const piece of pieces) {
             const item = document.createElement("div");
             item.className = "captured-piece-item";
-            const prefix = piece.color === "WHITE" ? "w" : "b";
-            const typeChar = piece.type === "KNIGHT" ? "N" : piece.type[0];
-            item.style.backgroundImage = `url('./assets/pieces/${prefix}${typeChar}.svg')`;
+            const colorFolder = piece.color.toLowerCase();
+            const pieceName = piece.type.toLowerCase();
+            item.style.backgroundImage = `url('../assets/pieces/${colorFolder}/${pieceName}.svg')`;
             this.#capturedListElement.appendChild(item);
         }
 
